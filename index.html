@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackridge SEO Optimiser - Live Content Optimization Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #1a1a1a;
+            --primary-teal: #14b8a6;
+            --dark-teal: #0f766e;
+            --light-teal: #5eead4;
+            --pure-white: #ffffff;
+            --off-white: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--primary-black);
+            color: var(--gray-700);
+            line-height: 1.6;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-teal);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-teal);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 0 60px;
+            background: linear-gradient(180deg, var(--primary-black) 0%, var(--secondary-black) 100%);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--pure-white);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            color: var(--gray-400);
+            font-weight: 400;
+        }
+
+        .logo-accent {
+            color: var(--primary-teal);
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 24px;
+            background-color: var(--off-white);
+            border-radius: 24px;
+            padding: 24px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 400px 1fr;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel.sidebar {
+                position: relative !important;
+                top: 0 !important;
+            }
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--pure-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .panel.sidebar {
+            position: sticky;
+            top: 24px;
+            height: fit-content;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+        }
+
+        .panel h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Live Indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--light-teal);
+            color: var(--dark-teal);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--dark-teal);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        /* Instructions */
+        .instructions {
+            background-color: var(--off-white);
+            border: 1px solid var(--gray-200);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h3 {
+            color: var(--primary-black);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin-left: 18px;
+            color: var(--gray-600);
+            font-size: 0.8125rem;
+            line-height: 1.6;
+        }
+
+        .instructions li {
+            margin-bottom: 4px;
+        }
+
+        /* Form Elements */
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            max-height: 200px;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-family: 'Inter', monospace;
+            resize: vertical;
+            transition: all 0.2s ease;
+            background-color: var(--off-white);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            background-color: var(--pure-white);
+        }
+
+        textarea::placeholder {
+            color: var(--gray-400);
+            font-size: 0.8125rem;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: var(--primary-teal);
+            color: var(--pure-white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
+            flex: 1;
+        }
+
+        button:hover {
+            background-color: var(--dark-teal);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .secondary-button {
+            background-color: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .secondary-button:hover {
+            background-color: var(--gray-300);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .small-button {
+            padding: 6px 16px;
+            font-size: 0.8125rem;
+            flex: 0;
+        }
+
+        /* Status Messages */
+        .status {
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .status-processing {
+            background-color: rgba(20, 184, 166, 0.1);
+            color: var(--dark-teal);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .status-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #047857;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--off-white);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary-teal);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.1);
+        }
+
+        .stat-card h4 {
+            color: var(--gray-500);
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-black);
+        }
+
+        /* Results Table */
+        .results-container {
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            margin-top: 20px;
+            background-color: var(--off-white);
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+        }
+
+        .results-table th {
+            background-color: var(--off-white);
+            padding: 10px 8px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 2px solid var(--gray-200);
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .results-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+            vertical-align: middle;
+        }
+
+        .results-table tr:hover {
+            background-color: rgba(20, 184, 166, 0.03);
+        }
+
+        .topic-label {
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--primary-black);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        /* Topic Colors */
+        .topic-red { background-color: #fee2e2; }
+        .topic-yellow { background-color: #fef3c7; }
+        .topic-green { background-color: #d1fae5; }
+        .topic-blue { background-color: #dbeafe; }
+
+        .topic-change {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .topic-change.increase { color: var(--green); }
+        .topic-change.decrease { color: var(--red); }
+
+        /* Editor */
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background-color: var(--off-white);
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .word-count {
+            font-size: 0.8125rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .editable-content {
+            position: relative;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            min-height: 400px;
+            max-height: 500px;
+            background-color: var(--pure-white);
+            line-height: 1.8;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+            word-wrap: break-word;
+        }
+
+        .editable-content:focus {
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .editable-content[contenteditable="true"]:empty:before {
+            content: "Start typing or paste your content here...";
+            color: var(--gray-400);
+            font-style: italic;
+        }
+
+        .highlighted-text {
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: text;
+            position: relative;
+        }
+
+        .highlighted-text:hover::after {
+            content: attr(data-topic);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-black);
+            color: var(--pure-white);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0.95;
+            pointer-events: none;
+            z-index: 1000;
+            margin-bottom: 4px;
+        }
+
+        /* Color Legend */
+        .color-legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .color-legend {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .color-item {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.8125rem;
+            text-align: center;
+            transition: transform 0.2s ease;
+            border: 1px solid var(--gray-200);
+        }
+
+        .color-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Suggestions */
+        .content-suggestions {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: var(--off-white);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .content-suggestions h4 {
+            color: var(--primary-black);
+            margin-bottom: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .suggestion-item {
+            padding: 8px 12px;
+            margin: 6px 0;
+            background-color: var(--pure-white);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8125rem;
+        }
+
+        .suggestion-item:hover {
+            background-color: rgba(20, 184, 166, 0.05);
+            border-color: var(--primary-teal);
+            transform: translateX(4px);
+        }
+
+        .suggestion-topic {
+            font-weight: 600;
+            color: var(--primary-black);
+            font-size: 0.8125rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .suggestion-action {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            background-color: var(--gray-100);
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* Optimization Tip */
+        .optimization-tip {
+            background-color: rgba(20, 184, 166, 0.05);
+            color: var(--dark-teal);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            font-size: 0.875rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        /* Debug Info */
+        .debug-info {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 16px;
+                gap: 16px;
+            }
+            
+            .panel {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-content {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Black<span class="logo-accent">ridge</span> SEO Optimiser</h1>
+            <p>Memory-optimized real-time content optimization with deduplication</p>
+        </div>
+
+        <div class="main-content">
+            <div class="panel sidebar">
+                <h2>Topic Analysis <span class="live-indicator"><span class="live-dot"></span>LIVE</span></h2>
+                
+                <div class="instructions">
+                    <h3>Quick Start Guide</h3>
+                    <ol>
+                        <li>Paste your topic data below</li>
+                        <li>Click "Start Analysis" to begin</li>
+                        <li>Type or paste content in the editor</li>
+                        <li>Watch metrics update in real-time</li>
+                    </ol>
+                </div>
+
+                <div class="input-section">
+                    <label for="topicData">Topic Data (paste from SEO tool)</label>
+                    <textarea id="topicData" placeholder="Example:
+stargate project texas
+0
+1
+stargate project
+21
+4
+data center
+12
+8"></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button onclick="initializeAnalysis()">Start Analysis</button>
+                    <button class="secondary-button" onclick="clearAll()">Clear</button>
+                </div>
+
+                <div id="status"></div>
+
+                <div class="stats-grid" id="statsGrid" style="display: none;">
+                    <div class="stat-card">
+                        <h4>Topics</h4>
+                        <div class="value" id="totalTopics">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Optimized</h4>
+                        <div class="value" id="optimizedTopics">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>To Fix</h4>
+                        <div class="value" id="needsWorkTopics">0</div>
+                    </div>
+                </div>
+
+                <div id="resultsContainer"></div>
+
+                <div id="contentSuggestions" class="content-suggestions" style="display: none;">
+                    <h4>Quick Add Topics</h4>
+                    <div id="suggestionsList"></div>
+                </div>
+
+                <div id="debugInfo" class="debug-info" style="display: none;">
+                    <strong>Memory Usage:</strong><br>
+                    Topics cached: <span id="topicsCached">0</span><br>
+                    Regex cache: <span id="regexCacheSize">0</span><br>
+                    Last update: <span id="lastUpdate">-</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Content Editor</h2>
+                
+                <div class="color-legend">
+                    <div class="color-item topic-red">Not mentioned (0)</div>
+                    <div class="color-item topic-yellow">Under-optimized (1-2)</div>
+                    <div class="color-item topic-green">Well-optimized (3-10)</div>
+                    <div class="color-item topic-blue">Over-optimized (10+)</div>
+                </div>
+
+                <div class="editor-toolbar">
+                    <div class="word-count">
+                        <strong id="wordCount">0</strong> words • <strong id="charCount">0</strong> characters
+                    </div>
+                    <div>
+                        <button class="small-button" onclick="toggleDebug()">Debug</button>
+                        <button class="small-button" onclick="copyContent()">Copy Text</button>
+                    </div>
+                </div>
+
+                <div id="contentEditor" class="editable-content" contenteditable="true" spellcheck="true">
+                </div>
+
+                <div id="optimizationTip" class="optimization-tip">
+                    💡 <span id="tipText"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced memory management and deduplication system
+        class SEOOptimizer {
+            constructor() {
+                // Memory pools for efficient allocation
+                this.topicPool = new Map();
+                this.regexCache = new Map();
+                this.highlightCache = new Map();
+                this.documentFragmentPool = [];
+                
+                // State management
+                this.processedTopics = [];
+                this.isAnalysisActive = false;
+                this.debounceTimer = null;
+                this.rafId = null;
+                
+                // Performance tracking
+                this.updateCount = 0;
+                this.lastUpdateTime = 0;
+                
+                // Color definitions
+                this.COLORS = {
+                    RED: "#fee2e2",
+                    YELLOW: "#fef3c7", 
+                    GREEN: "#d1fae5",
+                    BLUE: "#dbeafe"
+                };
+                
+                this.initializeEventListeners();
+            }
+            
+            initializeEventListeners() {
+                const contentEditor = document.getElementById('contentEditor');
+                
+                // Optimized input handler with debouncing
+                contentEditor.addEventListener('input', (e) => {
+                    if (this.isAnalysisActive) {
+                        this.scheduleUpdate();
+                    }
+                    this.updateWordCount();
+                });
+                
+                // Prevent formatting on paste and clean input
+                contentEditor.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const text = (e.clipboardData || window.clipboardData).getData('text');
+                    this.insertCleanText(text);
+                });
+                
+                // Clean up on focus loss
+                contentEditor.addEventListener('blur', () => {
+                    this.cleanup();
+                });
+            }
+            
+            // Memory-efficient topic data parsing with deduplication
+            parseTopicData(data) {
+                const lines = data.trim().split('\n');
+                const topics = [];
+                const seenTopics = new Set(); // Prevent duplicates
+                
+                this.clearMemoryPools();
+                
+                for (let i = 0; i < lines.length; i += 3) {
+                    if (i + 2 < lines.length) {
+                        const topic = lines[i].trim().toLowerCase(); // Normalize for deduplication
+                        const currentMentions = parseInt(lines[i + 1].trim()) || 0;
+                        const suggestedMentions = parseInt(lines[i + 2].trim()) || 0;
+                        
+                        // Skip if we've seen this topic before
+                        if (seenTopics.has(topic)) {
+                            console.warn(`Duplicate topic detected and skipped: "${topic}"`);
+                            continue;
+                        }
+                        
+                        seenTopics.add(topic);
+                        
+                        const topicObj = {
+                            topic: topic,
+                            originalTopic: lines[i].trim(), // Keep original case
+                            suggestedMentions: suggestedMentions,
+                            actualMentions: 0,
+                            previousMentions: 0,
+                            color: this.COLORS.RED,
+                            regex: null // Will be created on demand
+                        };
+                        
+                        // Add to memory pool
+                        this.topicPool.set(topic, topicObj);
+                        topics.push(topicObj);
+                    }
+                }
+                
+                console.log(`Parsed ${topics.length} unique topics, filtered ${lines.length / 3 - topics.length} duplicates`);
+                return topics;
+            }
+            
+            // Efficient regex creation with caching
+            getTopicRegex(topic) {
+                if (this.regexCache.has(topic)) {
+                    return this.regexCache.get(topic);
+                }
+                
+                const escapedTopic = topic.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(`\\b${escapedTopic}\\b`, 'gi');
+                
+                // Limit cache size to prevent memory leaks
+                if (this.regexCache.size > 100) {
+                    const firstKey = this.regexCache.keys().next().value;
+                    this.regexCache.delete(firstKey);
+                }
+                
+                this.regexCache.set(topic, regex);
+                return regex;
+            }
+            
+            // Memory-optimized counting with caching
+            countTopicOccurrences(content, topic) {
+                const cacheKey = `${topic}:${content.length}:${this.getContentHash(content)}`;
+                
+                if (this.highlightCache.has(cacheKey)) {
+                    return this.highlightCache.get(cacheKey);
+                }
+                
+                const regex = this.getTopicRegex(topic);
+                const matches = content.match(regex);
+                const count = matches ? matches.length : 0;
+                
+                // Cache the result with size limit
+                if (this.highlightCache.size > 50) {
+                    const firstKey = this.highlightCache.keys().next().value;
+                    this.highlightCache.delete(firstKey);
+                }
+                
+                this.highlightCache.set(cacheKey, count);
+                return count;
+            }
+            
+            // Simple hash function for content change detection
+            getContentHash(content) {
+                let hash = 0;
+                for (let i = 0; i < content.length; i++) {
+                    const char = content.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32-bit integer
+                }
+                return hash;
+            }
+            
+            // Optimized content highlighting with fragment reuse
+            highlightContentOptimized(plainText, topics) {
+                const contentEditor = document.getElementById('contentEditor');
+                
+                // Save cursor position
+                const selection = window.getSelection();
+                const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+                const cursorOffset = range ? this.getAbsoluteCursorPosition(contentEditor, range) : 0;
+                
+                // Create highlight map to avoid overlapping highlights
+                const highlightMap = this.createHighlightMap(plainText, topics);
+                
+                // Build optimized HTML with non-overlapping highlights
+                let highlightedHTML = this.buildHighlightedHTML(plainText, highlightMap);
+                
+                // Update DOM efficiently
+                contentEditor.innerHTML = highlightedHTML || '<br>';
+                
+                // Restore cursor position
+                this.restoreCursorPosition(contentEditor, cursorOffset);
+            }
+            
+            // Create a map of text positions to avoid overlapping highlights
+            createHighlightMap(text, topics) {
+                const highlights = [];
+                const processedRanges = [];
+                
+                // Sort topics by length (longest first) to prioritize longer matches
+                const sortedTopics = [...topics]
+                    .filter(topic => topic.actualMentions > 0)
+                    .sort((a, b) => b.originalTopic.length - a.originalTopic.length);
+                
+                sortedTopics.forEach(topic => {
+                    const regex = this.getTopicRegex(topic.originalTopic);
+                    let match;
+                    
+                    // Reset regex for global search
+                    regex.lastIndex = 0;
+                    
+                    while ((match = regex.exec(text)) !== null) {
+                        const start = match.index;
+                        const end = start + match[0].length;
+                        
+                        // Check if this range overlaps with existing highlights
+                        const overlaps = processedRanges.some(range => 
+                            (start < range.end && end > range.start)
+                        );
+                        
+                        if (!overlaps) {
+                            highlights.push({
+                                start: start,
+                                end: end,
+                                text: match[0],
+                                topic: topic.originalTopic,
+                                color: topic.color
+                            });
+                            processedRanges.push({ start, end });
+                        }
+                        
+                        // Prevent infinite loops with global regex
+                        if (regex.lastIndex === start) {
+                            regex.lastIndex++;
+                        }
+                    }
+                });
+                
+                // Sort highlights by start position
+                return highlights.sort((a, b) => a.start - b.start);
+            }
+            
+            // Build HTML with highlights applied
+            buildHighlightedHTML(text, highlights) {
+                if (highlights.length === 0) {
+                    return this.escapeHtml(text).replace(/\n/g, '<br>');
+                }
+                
+                let html = '';
+                let lastIndex = 0;
+                
+                highlights.forEach(highlight => {
+                    // Add text before highlight
+                    if (highlight.start > lastIndex) {
+                        const beforeText = text.substring(lastIndex, highlight.start);
+                        html += this.escapeHtml(beforeText);
+                    }
+                    
+                    // Add highlighted text
+                    const highlightedText = this.escapeHtml(highlight.text);
+                    html += `<span class="highlighted-text" style="background-color: ${highlight.color};" data-topic="${this.escapeHtml(highlight.topic)}">${highlightedText}</span>`;
+                    
+                    lastIndex = highlight.end;
+                });
+                
+                // Add remaining text
+                if (lastIndex < text.length) {
+                    const remainingText = text.substring(lastIndex);
+                    html += this.escapeHtml(remainingText);
+                }
+                
+                return html.replace(/\n/g, '<br>');
+            }
+            
+            // Memory pool management for document fragments
+            getDocumentFragment() {
+                if (this.documentFragmentPool.length > 0) {
+                    return this.documentFragmentPool.pop();
+                }
+                return document.createDocumentFragment();
+            }
+            
+            releaseDocumentFragment(fragment) {
+                // Clear and return to pool
+                while (fragment.firstChild) {
+                    fragment.removeChild(fragment.firstChild);
+                }
+                if (this.documentFragmentPool.length < 5) {
+                    this.documentFragmentPool.push(fragment);
+                }
+            }
+            
+            // Efficient cursor position management
+            getAbsoluteCursorPosition(element, range) {
+                const preCaretRange = range.cloneRange();
+                preCaretRange.selectNodeContents(element);
+                preCaretRange.setEnd(range.endContainer, range.endOffset);
+                return preCaretRange.toString().length;
+            }
+            
+            restoreCursorPosition(element, targetOffset) {
+                if (document.activeElement !== element) return;
+                
+                try {
+                    const textNodes = this.getTextNodes(element);
+                    let currentOffset = 0;
+                    
+                    for (let node of textNodes) {
+                        if (currentOffset + node.length >= targetOffset) {
+                            const range = document.createRange();
+                            const offset = Math.min(targetOffset - currentOffset, node.length);
+                            range.setStart(node, offset);
+                            range.collapse(true);
+                            
+                            const selection = window.getSelection();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
+                            break;
+                        }
+                        currentOffset += node.length;
+                    }
+                } catch (e) {
+                    console.warn('Cursor restoration failed:', e);
+                }
+            }
+            
+            getTextNodes(element) {
+                const textNodes = [];
+                const walker = document.createTreeWalker(
+                    element,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                let node;
+                while (node = walker.nextNode()) {
+                    textNodes.push(node);
+                }
+                return textNodes;
+            }
+            
+            // Utility functions
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            insertCleanText(text) {
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    range.deleteContents();
+                    range.insertNode(document.createTextNode(text));
+                    range.collapse(false);
+                }
+            }
+            
+            // Performance-optimized update scheduling
+            scheduleUpdate() {
+                // Cancel previous updates
+                clearTimeout(this.debounceTimer);
+                if (this.rafId) {
+                    cancelAnimationFrame(this.rafId);
+                }
+                
+                // Debounce rapid changes
+                this.debounceTimer = setTimeout(() => {
+                    this.rafId = requestAnimationFrame(() => {
+                        this.updateAnalysisLive();
+                        this.rafId = null;
+                    });
+                }, 150); // Reduced debounce for better responsiveness
+            }
+            
+            // Main analysis update with memory optimization
+            updateAnalysisLive() {
+                if (!this.isAnalysisActive || this.processedTopics.length === 0) return;
+                
+                const startTime = performance.now();
+                const content = this.getPlainTextContent();
+                
+                // Update topic counts efficiently
+                this.processedTopics.forEach(topic => {
+                    topic.previousMentions = topic.actualMentions;
+                    topic.actualMentions = this.countTopicOccurrences(content, topic.originalTopic);
+                    topic.color = this.getColorForMentions(topic.actualMentions);
+                });
+                
+                // Sort by optimization gap
+                this.processedTopics.sort((a, b) => {
+                    const gapA = Math.max(0, a.suggestedMentions - a.actualMentions);
+                    const gapB = Math.max(0, b.suggestedMentions - b.actualMentions);
+                    return gapB - gapA;
+                });
+                
+                // Update displays
+                this.displayResults(this.processedTopics);
+                this.highlightContentOptimized(content, this.processedTopics);
+                this.updateStats(this.processedTopics);
+                this.updateOptimizationTips(this.processedTopics);
+                this.updateSuggestions();
+                
+                // Update performance metrics
+                this.updateCount++;
+                this.lastUpdateTime = performance.now() - startTime;
+                this.updateDebugInfo();
+            }
+            
+            // Memory cleanup
+            cleanup() {
+                // Clear caches periodically
+                if (this.updateCount % 50 === 0) {
+                    this.highlightCache.clear();
+                    if (this.regexCache.size > 50) {
+                        // Keep only recent entries
+                        const entries = Array.from(this.regexCache.entries()).slice(-25);
+                        this.regexCache.clear();
+                        entries.forEach(([key, value]) => this.regexCache.set(key, value));
+                    }
+                }
+            }
+            
+            clearMemoryPools() {
+                this.topicPool.clear();
+                this.regexCache.clear();
+                this.highlightCache.clear();
+                this.documentFragmentPool = [];
+            }
+            
+            // Color determination
+            getColorForMentions(mentions) {
+                if (mentions === 0) return this.COLORS.RED;
+                else if (mentions >= 1 && mentions <= 2) return this.COLORS.YELLOW;
+                else if (mentions >= 3 && mentions <= 10) return this.COLORS.GREEN;
+                else return this.COLORS.BLUE;
+            }
+            
+            getColorClass(mentions) {
+                if (mentions === 0) return 'topic-red';
+                else if (mentions >= 1 && mentions <= 2) return 'topic-yellow';
+                else if (mentions >= 3 && mentions <= 10) return 'topic-green';
+                else return 'topic-blue';
+            }
+            
+            // Content utilities
+            getPlainTextContent() {
+                const contentEditor = document.getElementById('contentEditor');
+                return contentEditor.innerText || contentEditor.textContent || '';
+            }
+            
+            updateWordCount() {
+                const text = this.getPlainTextContent();
+                const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+                const chars = text.length;
+                
+                document.getElementById('wordCount').textContent = words || 0;
+                document.getElementById('charCount').textContent = chars || 0;
+            }
+            
+            // Debug information
+            updateDebugInfo() {
+                document.getElementById('topicsCached').textContent = this.topicPool.size;
+                document.getElementById('regexCacheSize').textContent = this.regexCache.size;
+                document.getElementById('lastUpdate').textContent = `${this.lastUpdateTime.toFixed(2)}ms`;
+            }
+            
+            // UI Methods
+            displayResults(topics) {
+                let html = `
+                    <h3 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">Topic Analysis Results</h3>
+                    <div class="results-container">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%;">Topic</th>
+                                    <th style="text-align: center; width: 15%;">Count</th>
+                                    <th style="text-align: center; width: 15%;">Target</th>
+                                    <th style="text-align: center; width: 20%;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                topics.forEach(topic => {
+                    const gap = Math.max(0, topic.suggestedMentions - topic.actualMentions);
+                    const gapDisplay = gap > 0 ? `-${gap}` : '✓';
+                    const gapColor = gap > 0 ? 'var(--red)' : 'var(--green)';
+                    const colorClass = this.getColorClass(topic.actualMentions);
+                    
+                    let changeIndicator = '';
+                    const change = topic.actualMentions - topic.previousMentions;
+                    if (change > 0) {
+                        changeIndicator = `<span class="topic-change increase">+${change}</span>`;
+                    } else if (change < 0) {
+                        changeIndicator = `<span class="topic-change decrease">${change}</span>`;
+                    }
+                    
+                    html += `
+                        <tr>
+                            <td title="${topic.originalTopic}">
+                                <span class="topic-label ${colorClass}">
+                                    ${topic.originalTopic}
+                                </span>
+                            </td>
+                            <td style="text-align: center; font-weight: 600; font-size: 0.8rem;">
+                                ${topic.actualMentions}${changeIndicator}
+                            </td>
+                            <td style="text-align: center; font-size: 0.8rem;">
+                                ${topic.suggestedMentions}
+                            </td>
+                            <td style="text-align: center; color: ${gapColor}; font-weight: 600; font-size: 0.8rem;">
+                                ${gapDisplay}
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                document.getElementById('resultsContainer').innerHTML = html;
+            }
+            
+            updateStats(topics) {
+                const totalTopics = topics.length;
+                const optimizedTopics = topics.filter(t => t.actualMentions >= t.suggestedMentions).length;
+                const needsWorkTopics = totalTopics - optimizedTopics;
+                
+                document.getElementById('totalTopics').textContent = totalTopics;
+                document.getElementById('optimizedTopics').textContent = optimizedTopics;
+                document.getElementById('needsWorkTopics').textContent = needsWorkTopics;
+                document.getElementById('statsGrid').style.display = 'grid';
+            }
+            
+            updateOptimizationTips(topics) {
+                const underOptimized = topics.filter(t => t.actualMentions < t.suggestedMentions);
+                const tipDiv = document.getElementById('optimizationTip');
+                const tipText = document.getElementById('tipText');
+                
+                if (underOptimized.length > 0) {
+                    const topNeed = underOptimized[0];
+                    const needed = topNeed.suggestedMentions - topNeed.actualMentions;
+                    tipText.textContent = `Add ${needed} more mention${needed > 1 ? 's' : ''} of "${topNeed.originalTopic}" to reach the target.`;
+                    tipDiv.style.display = 'block';
+                } else {
+                    tipText.textContent = 'Perfect! All topics are optimally mentioned.';
+                    tipDiv.style.display = 'block';
+                }
+            }
+            
+            updateSuggestions() {
+                const underOptimized = this.processedTopics
+                    .filter(t => t.actualMentions < t.suggestedMentions)
+                    .slice(0, 3);
+                
+                const suggestionsList = document.getElementById('suggestionsList');
+                
+                if (underOptimized.length === 0) {
+                    suggestionsList.innerHTML = '<div style="color: var(--green); padding: 10px; text-align: center;">✓ All topics are well-optimized!</div>';
+                    return;
+                }
+                
+                let html = '';
+                underOptimized.forEach(topic => {
+                    const needed = topic.suggestedMentions - topic.actualMentions;
+                    html += `
+                        <div class="suggestion-item" onclick="seoOptimizer.addTopicAtCursor('${topic.originalTopic}')">
+                            <span class="suggestion-topic">${topic.originalTopic}</span>
+                            <span class="suggestion-action">+${needed} needed</span>
+                        </div>
+                    `;
+                });
+                
+                suggestionsList.innerHTML = html;
+            }
+            
+            addTopicAtCursor(topic) {
+                const contentEditor = document.getElementById('contentEditor');
+                contentEditor.focus();
+                this.insertCleanText(` ${topic} `);
+                this.scheduleUpdate();
+            }
+            
+            // Public interface methods
+            initializeAnalysis() {
+                const topicData = document.getElementById('topicData').value;
+                
+                if (!topicData.trim()) {
+                    this.showStatus("Please enter topic data first", "error");
+                    return;
+                }
+                
+                this.showStatus("Initializing memory-optimized analysis...", "processing");
+                
+                // Parse topics with deduplication
+                this.processedTopics = this.parseTopicData(topicData);
+                this.isAnalysisActive = true;
+                
+                // Run initial analysis
+                this.updateAnalysisLive();
+                
+                // Show suggestions
+                this.updateSuggestions();
+                document.getElementById('contentSuggestions').style.display = 'block';
+                
+                this.showStatus(`Analysis active! Tracking ${this.processedTopics.length} unique topics.`, "success");
+            }
+            
+            clearAll() {
+                if (confirm('Are you sure you want to clear all content and analysis?')) {
+                    document.getElementById('topicData').value = '';
+                    document.getElementById('contentEditor').innerHTML = '';
+                    document.getElementById('resultsContainer').innerHTML = '';
+                    document.getElementById('status').innerHTML = '';
+                    document.getElementById('statsGrid').style.display = 'none';
+                    document.getElementById('contentSuggestions').style.display = 'none';
+                    document.getElementById('optimizationTip').style.display = 'none';
+                    
+                    this.processedTopics = [];
+                    this.isAnalysisActive = false;
+                    this.updateCount = 0;
+                    this.clearMemoryPools();
+                    this.updateWordCount();
+                }
+            }
+            
+            copyContent() {
+                const text = this.getPlainTextContent();
+                navigator.clipboard.writeText(text).then(() => {
+                    this.showStatus("Content copied to clipboard!", "success");
+                }).catch(err => {
+                    this.showStatus("Failed to copy content", "error");
+                });
+            }
+            
+            showStatus(message, type) {
+                const statusDiv = document.getElementById('status');
+                statusDiv.innerHTML = message;
+                statusDiv.className = `status status-${type}`;
+                statusDiv.style.display = 'block';
+                
+                if (type === 'success') {
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 3000);
+                }
+            }
+        }
+        
+        // Initialize the optimized SEO optimizer
+        const seoOptimizer = new SEOOptimizer();
+        
+        // Global functions for backward compatibility
+        function initializeAnalysis() {
+            seoOptimizer.initializeAnalysis();
+        }
+        
+        function clearAll() {
+            seoOptimizer.clearAll();
+        }
+        
+        function copyContent() {
+            seoOptimizer.copyContent();
+        }
+        
+        function toggleDebug() {
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.style.display = debugInfo.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Initialize word count on load
+        seoOptimizer.updateWordCount();
+    </script>
+</body>
+</html>
+                
